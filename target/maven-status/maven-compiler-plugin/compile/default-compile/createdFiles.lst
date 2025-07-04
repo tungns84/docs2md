@@ -1,0 +1,4 @@
+com\fis\gs\converter\Docs2MdConverterApplication.class
+com\fis\gs\converter\adapters\in\ConversionController.class
+com\fis\gs\converter\config\OpenApiConfig.class
+com\fis\gs\converter\adapters\in\ConversionController$ApplicationInfo.class

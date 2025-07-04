@@ -1,0 +1,112 @@
+# DOCX to Markdown Converter Application Configuration
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: docs2md-converter
+  
+  # File upload configuration
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+      enabled: true
+  
+  # Development profile settings
+  profiles:
+    active: development
+
+# OpenAPI/Swagger Configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tags-sorter: alpha
+    display-request-duration: true
+    doc-expansion: none
+  info:
+    title: "DOCX to Markdown Converter API"
+    description: "REST API for converting Microsoft Word documents to Markdown format with image support using Hexagonal Architecture"
+    version: "1.0.0-SNAPSHOT"
+    contact:
+      name: "Development Team"
+      email: "dev@fis.gs"
+
+# Logging configuration
+logging:
+  level:
+    com.fis.gs.converter: DEBUG
+    org.springframework.web: INFO
+    org.apache.poi: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Application-specific configuration
+docs2md:
+  conversion:
+    temp-directory: ${java.io.tmpdir}/docs2md-converter
+    output-format: zip
+    preserve-images: true
+    max-image-size: 10MB
+  
+  processing:
+    timeout-seconds: 300
+    cleanup-temp-files: true
+
+---
+# Development Profile
+spring:
+  config:
+    activate:
+      on-profile: development
+  
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+logging:
+  level:
+    com.fis.gs.converter: DEBUG
+    root: INFO
+
+---
+# Test Profile  
+spring:
+  config:
+    activate:
+      on-profile: test
+
+logging:
+  level:
+    com.fis.gs.converter: WARN
+    root: WARN
+
+---
+# Production Profile
+spring:
+  config:
+    activate:
+      on-profile: production
+
+logging:
+  level:
+    com.fis.gs.converter: INFO
+    root: WARN
+  file:
+    name: docs2md-converter.log
+
+docs2md:
+  processing:
+    timeout-seconds: 600
